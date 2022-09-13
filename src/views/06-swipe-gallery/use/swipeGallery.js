@@ -28,8 +28,27 @@ export const useSwipeGallery = (init = {}) => {
 
     const handleSwipe = () => {
         if (swipeEndY !== swipeStartY) {
-            if (Math.abs(Math.abs(swipeEndX - swipeStartX) - Math.abs(swipeEndY - swipeStartY)) < 120) {
-
+            if (Math.abs(Math.abs(swipeEndX - swipeStartX) - Math.abs(swipeEndY - swipeStartY)) < 80) {
+                if (swipeEndX > swipeStartX) {
+                    if (swipeEndY > swipeStartY && pos.X > 0 && pos.Y > 0) {
+                        pos.X--
+                        pos.Y--
+                    } else if (swipeEndY < swipeStartY && pos.X > 0 && ((pos.Y + 1) * gridSize.value + pos.X - 1) < gallerySize.value) {
+                        pos.X--
+                        pos.Y++
+                    }
+                } else if (swipeEndX < swipeStartX) {
+                    if (swipeEndY > swipeStartY && pos.Y > 0 && pos.X + 1 < gridSize.value) {
+                        pos.X++
+                        pos.Y--
+                    } else if (
+                        swipeEndY < swipeStartY
+                        && ((pos.Y + 1) * gridSize.value + pos.X + 1) < gallerySize.value
+                    ) {
+                        pos.X++
+                        pos.Y++
+                    }
+                }
             } else if (Math.abs(swipeEndX - swipeStartX) >= Math.abs(swipeEndY - swipeStartY)) {
                 if (swipeEndX > swipeStartX && pos.X > 0)
                     pos.X--

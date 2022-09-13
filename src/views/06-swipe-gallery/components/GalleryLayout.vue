@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import GalleryCard from "@/components/GalleryCard";
-import {useSwipeGallery} from "@/use/swipeGallery";
+import GalleryCard from "@/views/06-swipe-gallery/components/GalleryCard";
+import {useSwipeGallery} from "@/views/06-swipe-gallery/use/swipeGallery";
 
 export default {
     name: "GalleryLayout",
