@@ -2,42 +2,14 @@
     <div class="cards_wrap">
         <div class="container">
             <div
-                class="slide active"
-                style="background-image: url('https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');"
-            >
-                <h3>New York</h3>
-            </div>
-            <div
+                v-for="item in items"
+                :key="item.id"
                 class="slide"
-                style="
-          background-image: url('https://images.unsplash.com/photo-1539037116277-4db20889f2d4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
-        "
+                :class="{ active: currentSlide === item.id }"
+                :style="{'background-image': `url(${item.background}`}"
+                @click="selectSlide(item.id)"
             >
-                <h3>Madrid</h3>
-            </div>
-            <div
-                class="slide"
-                style="
-          background-image: url('https://images.unsplash.com/photo-1520986606214-8b456906c813?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
-        "
-            >
-                <h3>London</h3>
-            </div>
-            <div
-                class="slide"
-                style="
-          background-image: url('https://images.unsplash.com/photo-1576413326475-ea6c788332fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1228&q=80');
-        "
-            >
-                <h3>Moscow</h3>
-            </div>
-            <div
-                class="slide"
-                style="
-          background-image: url('https://images.unsplash.com/photo-1431274172761-fca41d930114?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
-        "
-            >
-                <h3>Paris</h3>
+                <h3>{{ item.title }}</h3>
             </div>
         </div>
     </div>
@@ -46,21 +18,44 @@
 <script>
 export default {
     name: "CardsView",
-    mounted() {
-        const slides = document.querySelectorAll(".slide");
 
-        const clearActiveSlides = () => {
-            slides.forEach((slide) => {
-                slide.classList.remove("active");
-            })
+    data() {
+        return {
+            currentSlide: 1,
+            items: [
+                {
+                    id: 1,
+                    title: "New York",
+                    background: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                },
+                {
+                    id: 2,
+                    title: "Madrid",
+                    background: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                },
+                {
+                    id: 3,
+                    title: "London",
+                    background: "https://images.unsplash.com/photo-1520986606214-8b456906c813?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                },
+                {
+                    id: 4,
+                    title: "Moscow",
+                    background: "https://images.unsplash.com/photo-1576413326475-ea6c788332fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1228&q=80"
+                },
+                {
+                    id: 5,
+                    title: "Paris",
+                    background: "https://images.unsplash.com/photo-1431274172761-fca41d930114?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                },
+            ]
         }
+    },
 
-        slides.forEach((slide) => {
-            slide.addEventListener("click", () => {
-                clearActiveSlides();
-                slide.classList.add("active");
-            })
-        })
+    methods: {
+        selectSlide(id) {
+            this.currentSlide = id;
+        }
     }
 }
 </script>
