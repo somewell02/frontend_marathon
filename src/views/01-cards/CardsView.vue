@@ -16,45 +16,50 @@
 </template>
 
 <script>
+import {ref} from "vue";
+
 export default {
     name: "CardsView",
 
-    data() {
-        return {
-            currentSlide: 1,
-            items: [
-                {
-                    id: 1,
-                    title: "New York",
-                    background: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                },
-                {
-                    id: 2,
-                    title: "Madrid",
-                    background: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                },
-                {
-                    id: 3,
-                    title: "London",
-                    background: "https://images.unsplash.com/photo-1520986606214-8b456906c813?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                },
-                {
-                    id: 4,
-                    title: "Moscow",
-                    background: "https://images.unsplash.com/photo-1576413326475-ea6c788332fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1228&q=80"
-                },
-                {
-                    id: 5,
-                    title: "Paris",
-                    background: "https://images.unsplash.com/photo-1431274172761-fca41d930114?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                },
-            ]
-        }
-    },
+    setup() {
+        const items = [
+            {
+                id: 1,
+                title: "New York",
+                background: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            },
+            {
+                id: 2,
+                title: "Madrid",
+                background: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            },
+            {
+                id: 3,
+                title: "London",
+                background: "https://images.unsplash.com/photo-1520986606214-8b456906c813?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            },
+            {
+                id: 4,
+                title: "Moscow",
+                background: "https://images.unsplash.com/photo-1576413326475-ea6c788332fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1228&q=80"
+            },
+            {
+                id: 5,
+                title: "Paris",
+                background: "https://images.unsplash.com/photo-1431274172761-fca41d930114?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            },
+        ]
 
-    methods: {
-        selectSlide(id) {
-            this.currentSlide = id;
+        const currentSlide = ref(1);
+
+        const selectSlide = id => {
+            currentSlide.value = id;
+        }
+
+        return {
+            currentSlide,
+            items,
+            selectSlide
         }
     }
 }
@@ -67,7 +72,7 @@ export default {
     font-family: 'Muli', sans-serif;
     overflow: hidden;
     margin: 0;
-    background: #003431;
+    background: #000000;
     height: 100vh;
     display: flex;
     align-items: center;

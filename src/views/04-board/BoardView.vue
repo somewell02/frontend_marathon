@@ -1,40 +1,46 @@
 <template>
     <div class="board_wrap">
-        <div class="container" id="board"></div>
+        <div class="container" id="board">
+            <div
+                v-for="square in SQUARES_COUNT"
+                :key="square"
+                @mouseenter="setColor"
+                @mouseleave="removeColor"
+                class="square"
+            ></div>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
     name: "BoardView",
-    mounted() {
-        const board = document.querySelector("#board");
+
+    setup() {
         const SQUARES_COUNT = 500;
 
-        for (let i = 0; i < SQUARES_COUNT; i++) {
-            const square = document.createElement("div");
-            square.classList.add("square");
-
-            square.addEventListener("mouseenter", () => setColor(square));
-            square.addEventListener("mouseleave", () => removeColor(square));
-
-            board.append(square);
+        const getRandomColor = () => {
+            const randomNumber = () => Math.floor(Math.random() * 256);
+            return `rgb(${randomNumber()}, ${randomNumber()}, ${randomNumber()})`;
         }
 
-        const setColor = element => {
+        const setColor = event => {
+            const element = event.target;
             const color = getRandomColor();
             element.style.background = color;
             element.style.boxShadow = `0 0 2px ${color}, 0 0 10px ${color}`;
         }
 
-        const removeColor = element => {
+        const removeColor = event => {
+            const element = event.target;
             element.style.background = "#1d1d1d";
             element.style.boxShadow = "0 0 2px #000";
         }
 
-        const getRandomColor = () => {
-            const randomNumber = () => Math.floor(Math.random() * 256);
-            return `rgb(${randomNumber()}, ${randomNumber()}, ${randomNumber()})`;
+        return {
+            SQUARES_COUNT,
+            setColor,
+            removeColor,
         }
     }
 }

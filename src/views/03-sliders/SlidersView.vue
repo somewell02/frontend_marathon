@@ -1,51 +1,37 @@
 <template>
     <div class="sliders_wrap">
         <div class="container">
-            <div class="sidebar">
-                <div style="background: linear-gradient(229.99deg, #0055bf -26%, #062f59 145%);">
-                    <h1>Lada</h1>
-                    <p>ВАЗ-2106</p>
-                </div>
-                <div style="background: linear-gradient(215.32deg, #fc8809 -1%, #983d00 124%);">
-                    <h1>Lamborghini</h1>
-                    <p>Lamborghini huracan</p>
-                </div>
-                <div style="background: linear-gradient(221.87deg, #fd1502 1%, #800001 128%);">
-                    <h1>Ferrari</h1>
-                    <p>Ferrari f8</p>
-                </div>
-                <div style="background: linear-gradient(220.16deg, #2a373d -8%, #020d0f 138%);">
-                    <h1>Porsche</h1>
-                    <p>Porsche panamera turbo S</p>
+            <div
+                class="sidebar"
+                :style="{
+                    transform: `translateY(${activeSlide * 100}vh)`,
+                    top: `-${(itemsLength - 1) * 100}vh`
+                }"
+            >
+                <div
+                    v-for="item in items"
+                    :key="item.id"
+                    :style="{ background: item.color }"
+                >
+                    <h1>{{ item.title }}</h1>
+                    <p>{{ item.model }}</p>
                 </div>
             </div>
-            <div class="main-slide">
+            <div
+                class="main-slide"
+                :style="{ transform: `translateY(-${activeSlide * 100}vh)` }"
+            >
                 <div
-                    style="
-            background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
-          "
-                ></div>
-                <div
-                    style="
-            background-image: url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
-          "
-                ></div>
-                <div
-                    style="
-            background-image: url('https://images.unsplash.com/photo-1532581140115-3e355d1ed1de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
-          "
-                ></div>
-                <div
-                    style="
-            background-image: url('https://images.unsplash.com/photo-1633077065063-fc23b4e95fdd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
-          "
+                    v-for="item in reversedItems"
+                    :key="`img_${item.id}`"
+                    :style="{ 'background-image': `url(${item.image})` }"
                 ></div>
             </div>
             <div class="controls">
-                <button class="down-button">
+                <button class="down-button" @click="changeSlideDown">
                     <i class="fas fa-arrow-down"></i>
                 </button>
-                <button class="up-button">
+                <button class="up-button" @click="changeSlideUp">
                     <i class="fas fa-arrow-up"></i>
                 </button>
             </div>
@@ -54,51 +40,87 @@
 </template>
 
 <script>
+import {computed, onMounted, onUnmounted, ref} from "vue";
+
 export default {
     name: "SlidersView",
-    mounted() {
-        const upBtn = document.querySelector(".up-button");
-        const downBtn = document.querySelector(".down-button");
-        const sidebar = document.querySelector(".sidebar");
+    setup() {
+        const items = [
+            {
+                id: 1,
+                title: "Lada",
+                model: "ВАЗ-2106",
+                color: "linear-gradient(229.99deg, #0055bf -26%, #062f59 145%)",
+                image: "https://images.unsplash.com/photo-1633077065063-fc23b4e95fdd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            },
+            {
+                id: 2,
+                title: "Lamborghini",
+                model: "Lamborghini huracan",
+                color: "linear-gradient(215.32deg, #fc8809 -1%, #983d00 124%)",
+                image: "https://images.unsplash.com/photo-1532581140115-3e355d1ed1de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            },
+            {
+                id: 3,
+                title: "Ferrari",
+                model: "Ferrari f8",
+                color: "linear-gradient(221.87deg, #fd1502 1%, #800001 128%)",
+                image: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            },
+            {
+                id: 4,
+                title: "Porsche",
+                model: "Porsche panamera turbo S",
+                color: "linear-gradient(220.16deg, #2a373d -8%, #020d0f 138%)",
+                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            }
+        ];
 
-        const mainSlide = document.querySelector(".main-slide");
-        const slidesCount = mainSlide.querySelectorAll("div").length;
+        const itemsLength = computed(() => items.length);
+        const reversedItems = computed(() => [...items].reverse())
 
-        let activeSlideIndex = 0;
+        const activeSlide = ref(0);
 
-        sidebar.style.top = `-${(slidesCount - 1) * 100}vh`;
-
-        const changeSlide = (direction) => {
+        const changeSlide = direction => {
             switch (direction) {
                 case "up":
-                    activeSlideIndex === slidesCount - 1
-                        ? activeSlideIndex = 0
-                        : activeSlideIndex += 1;
+                    activeSlide.value === itemsLength.value - 1
+                        ? activeSlide.value = 0
+                        : activeSlide.value += 1;
                     break;
                 case "down":
-                    activeSlideIndex === 0
-                        ? activeSlideIndex = slidesCount - 1
-                        : activeSlideIndex -= 1;
+                    activeSlide.value === 0
+                        ? activeSlide.value = itemsLength.value - 1
+                        : activeSlide.value -= 1;
                     break;
             }
-
-            sidebar.style.transform = `translateY(${activeSlideIndex * 100}vh)`;
-            mainSlide.style.transform = `translateY(-${activeSlideIndex * 100}vh)`;
         }
 
         const changeSlideUp = () => changeSlide("up");
         const changeSlideDown = () => changeSlide("down");
 
-        upBtn.addEventListener("click", changeSlideUp);
-        downBtn.addEventListener("click", changeSlideDown);
+        onMounted(() => {
+            setInterval(() => {
+                document.addEventListener(
+                    "wheel",
+                    (e) => e.deltaY > 0 ? changeSlideDown() : changeSlideUp(),
+                    {once: true}
+                );
+            }, 1000);
+        })
 
-        setInterval(() => {
-            document.addEventListener(
-                "wheel",
-                (e) => e.deltaY > 0 ? changeSlideDown() : changeSlideUp(),
-                { once: true }
-            );
-        }, 1000);
+        onUnmounted(() => {
+            clearInterval();
+        })
+
+        return {
+            items,
+            itemsLength,
+            reversedItems,
+            activeSlide,
+            changeSlideUp,
+            changeSlideDown,
+        }
     },
 }
 </script>

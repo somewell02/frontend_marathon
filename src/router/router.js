@@ -27,7 +27,7 @@ const routes = [
         component: () => import("@/views/05-aim-game/AimGameView")
     },
     {
-        path: "/swipe-gallery",
+        path: "/",
         name: "swipe-gallery",
         component: () => import("@/views/06-swipe-gallery/SwipeGalleryView")
     }
